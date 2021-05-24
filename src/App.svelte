@@ -21,5 +21,5 @@
 <small>Clique duplo para editar um todo</small>
 <br>
 <small>
-  Criado por <a href="https://github.com/PedroHAlvesN">Pedro</a>
+  Criado por <a target="_blank" href="https://github.com/PedroHAlvesN">Pedro</a>
 </small>
