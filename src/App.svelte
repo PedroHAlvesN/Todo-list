@@ -1,3 +1,7 @@
+<script>
+  import Input from "./components/Input.svelte"
+</script>
+
 <style>
   h1 {
     font-size: 72px;
@@ -18,8 +22,12 @@
 
 <h1>todos</h1>
 
-<small>Clique duplo para editar um todo</small>
-<br>
-<small>
-  Criado por <a target="_blank" href="https://github.com/PedroHAlvesN">Pedro</a>
-</small>
+<Input/>
+
+<div>
+  <small>Clique duplo para editar um todo</small>
+  <br>
+  <small>
+    Criado por <a target="_blank" href="https://github.com/PedroHAlvesN">Pedro</a>
+  </small>
+</div>
