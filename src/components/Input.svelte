@@ -61,6 +61,11 @@
         color: rgba(175, 47, 47, 0.4);
     }
 
+    .todo input:checked ~ p {
+        text-decoration: line-through;
+        color: rgba(77, 77, 77, 0.5);
+    }
+
 </style>
 
 <section>
