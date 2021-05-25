@@ -1,5 +1,5 @@
 <script>
-    const todos = [
+    let todos = [
         {
             nome: "Fazer Compras",
             concluido: false
@@ -9,6 +9,11 @@
             concluido: true
         },
     ]
+
+    const adicionarTodos = evento => { 
+        const nome = evento.target.value
+        evento.charCode === 13 && (todos = [...todos, { nome, concluido: false }])
+    }
 </script>
 
 <style>
@@ -69,7 +74,7 @@
 </style>
 
 <section>
-    <input class="add-todo" type="text" placeholder="O que precisa ser feito?">
+    <input on:keypress={adicionarTodos} class="add-todo" type="text" placeholder="O que precisa ser feito?">
     {#each todos as todo}
         <div class="todo">
             <input type="checkbox">
