@@ -1,5 +1,4 @@
 <script>
-import { loop_guard } from "svelte/internal"
 
     const numeroAleatorio = (min, max) => Math.round(Math.random() * (max - min) + min)
     
@@ -89,11 +88,16 @@ import { loop_guard } from "svelte/internal"
         display: flex;
         align-items: center;
         border: 1px solid #ededed;
+        max-width: 400px;
     }
 
     .todo p {
         margin: 0 0 0 6px;
         color: #4d4d4d;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
     }
 
     .todo input[type="checkbox"] {
@@ -121,6 +125,7 @@ import { loop_guard } from "svelte/internal"
         margin-left: auto;
         cursor: pointer;
     }
+    
 </style>
 
 <section>
@@ -136,7 +141,7 @@ import { loop_guard } from "svelte/internal"
                     autofocus
                     type="text">
             {:else}
-                <p on:dblclick={() => alterarStatusEdicao(todo.id)}>{todo.nome}</p>
+                <p title={todo.nome} on:dblclick={() => alterarStatusEdicao(todo.id)}>{todo.nome}</p>
             {/if}
             <span on:click={() => removerTodo(todo.id)}>x</span>
         </div>
