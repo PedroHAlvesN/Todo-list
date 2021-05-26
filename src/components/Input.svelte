@@ -19,13 +19,16 @@ import { loop_guard } from "svelte/internal"
     ]
 
     const adicionarTodo = evento => { 
-        const nome = evento.target.value
-        evento.charCode === 13 && (todos = [...todos, {
-            id: numeroAleatorio(1, 100000),
-            nome, 
-            concluido: false, 
-            editando: false 
-        }])
+        const nomeTodo = evento.target.value
+        if (evento.charCode === 13) {
+            todos = [...todos, {
+                id: numeroAleatorio(1, 100000),
+                nome: nomeTodo, 
+                concluido: false, 
+                editando: false 
+            }]
+            evento.target.value = ""
+        }
     }
 
     const obterTodoPorId = id => todos.findIndex(todo => id === todo.id)
