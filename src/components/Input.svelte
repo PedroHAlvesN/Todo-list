@@ -55,6 +55,11 @@ import { loop_guard } from "svelte/internal"
         }
     }
 
+    const removerTodo = id => {
+        const todoFiltrado = todos.filter(todo => todo.id != id)
+        todos = todoFiltrado
+    }
+
 </script>
 
 <style>
@@ -111,6 +116,11 @@ import { loop_guard } from "svelte/internal"
         text-decoration: line-through;
         color: rgba(77, 77, 77, 0.5);
     }
+
+    span {
+        margin-left: auto;
+        cursor: pointer;
+    }
 </style>
 
 <section>
@@ -128,6 +138,7 @@ import { loop_guard } from "svelte/internal"
             {:else}
                 <p on:dblclick={() => alterarStatusEdicao(todo.id)}>{todo.nome}</p>
             {/if}
+            <span on:click={() => removerTodo(todo.id)}>x</span>
         </div>
     {/each}
 </section>
