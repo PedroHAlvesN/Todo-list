@@ -46,9 +46,11 @@ import { loop_guard } from "svelte/internal"
     }
 
     const editarNomeTodo = (evento, id) => {
-        if (evento.charCode === 13) {
+        if (evento.key === "Enter") {
             const novoNomeTodo = evento.target.value
             editarTodo(id, "nome", novoNomeTodo)
+            alterarStatusEdicao(id)
+        } else if (evento.key === "Escape") {
             alterarStatusEdicao(id)
         }
     }
@@ -117,7 +119,11 @@ import { loop_guard } from "svelte/internal"
         <div class="todo">
             <input type="checkbox">
             {#if todo.editando}
-                <input on:keypress={evento => editarNomeTodo(evento, todo.id)} type="text">
+                <input
+                    on:keydown={evento => editarNomeTodo(evento, todo.id)}
+                    on:blur={() => todo.editando && alterarStatusEdicao(todo.id)}
+                    autofocus
+                    type="text">
             {:else}
                 <p on:dblclick={() => alterarStatusEdicao(todo.id)}>{todo.nome}</p>
             {/if}
