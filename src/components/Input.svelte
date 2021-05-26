@@ -122,6 +122,7 @@ import { loop_guard } from "svelte/internal"
                 <input
                     on:keydown={evento => editarNomeTodo(evento, todo.id)}
                     on:blur={() => todo.editando && alterarStatusEdicao(todo.id)}
+                    value={todo.nome}
                     autofocus
                     type="text">
             {:else}
