@@ -1,19 +1,55 @@
 <script>
+import { loop_guard } from "svelte/internal"
+
+    const numeroAleatorio = (min, max) => Math.round(Math.random() * (max - min) + min)
+    
     let todos = [
         {
+            id: numeroAleatorio(1, 100000),
             nome: "Fazer Compras",
-            concluido: false
+            concluido: false,
+            editando: false
         },
         {
+            id: numeroAleatorio(1, 100000),
             nome: "Ir ao Dentista",
-            concluido: true
-        },
+            concluido: true,
+            editando: false
+        }
     ]
 
-    const adicionarTodos = evento => { 
+    const adicionarTodo = evento => { 
         const nome = evento.target.value
-        evento.charCode === 13 && (todos = [...todos, { nome, concluido: false }])
+        evento.charCode === 13 && (todos = [...todos, {
+            id: numeroAleatorio(1, 100000),
+            nome, 
+            concluido: false, 
+            editando: false 
+        }])
     }
+
+    const obterTodoPorId = id => todos.findIndex(todo => id === todo.id)
+
+    const editarTodo = (id, todoPropriedade, todoValor) => {
+        const todoIndice = obterTodoPorId(id)
+        todos[todoIndice][todoPropriedade] = todoValor
+        todos = todos
+    }
+
+    const alterarStatusEdicao = id => {
+        const todoIndice = obterTodoPorId(id)
+        const editandoInvertido = !todos[todoIndice].editando
+        editarTodo(id, "editando", editandoInvertido)
+    }
+
+    const editarNomeTodo = (evento, id) => {
+        if (evento.charCode === 13) {
+            const novoNomeTodo = evento.target.value
+            editarTodo(id, "nome", novoNomeTodo)
+            alterarStatusEdicao(id)
+        }
+    }
+
 </script>
 
 <style>
@@ -50,7 +86,7 @@
         color: #4d4d4d;
     }
 
-    .todo input {
+    .todo input[type="checkbox"] {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -61,24 +97,27 @@
         border: 1px solid rgba(175, 47, 47, 0.4);
     }
 
-    .todo input:checked::after {
+    .todo input[type="checkbox"]:checked::after {
         content: '\2714';
         color: rgba(175, 47, 47, 0.4);
     }
 
-    .todo input:checked ~ p {
+    .todo input[type="checkbox"]:checked ~ p {
         text-decoration: line-through;
         color: rgba(77, 77, 77, 0.5);
     }
-
 </style>
 
 <section>
-    <input on:keypress={adicionarTodos} class="add-todo" type="text" placeholder="O que precisa ser feito?">
+    <input on:keypress={adicionarTodo} class="add-todo" type="text" placeholder="O que precisa ser feito?">
     {#each todos as todo}
         <div class="todo">
             <input type="checkbox">
-            <p>{todo.nome}</p>
+            {#if todo.editando}
+                <input on:keypress={evento => editarNomeTodo(evento, todo.id)} type="text">
+            {:else}
+                <p on:dblclick={() => alterarStatusEdicao(todo.id)}>{todo.nome}</p>
+            {/if}
         </div>
     {/each}
 </section>
